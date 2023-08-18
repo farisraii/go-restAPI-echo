@@ -144,6 +144,17 @@ func UpdateKaryawan(id int, nama string, jeniskelamin string, usia int, telepon 
 		return res, err
 	}
 
+	if rowsAffected == 0 {
+
+		res.Status = http.StatusNotFound
+		res.Message = "Id not found"
+		res.Data = map[string]int64{
+			"rows_affected": rowsAffected,
+		}
+
+		return res, nil
+	}
+
 	res.Status = http.StatusOK
 	res.Message = "Successfully Updated"
 	res.Data = map[string]int64{
