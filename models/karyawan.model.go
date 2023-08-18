@@ -202,6 +202,16 @@ func DeleteKaryawan(id int) (Response, error) {
 		return res, err
 	}
 
+	if rowsAffected == 0 {
+		res.Status = http.StatusNotFound
+		res.Message = "Id not found"
+		res.Data = map[string]int64{
+			"rows_affected": rowsAffected,
+		}
+
+		return res, nil
+	}
+
 	res.Status = http.StatusOK
 	res.Message = "Successfully Deleted"
 	res.Data = map[string]int64{
