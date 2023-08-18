@@ -5,7 +5,6 @@ import (
 	"strconv"
 
 	"github.com/farisraii/go-restAPI-echo/models"
-
 	"github.com/labstack/echo/v4"
 )
 
