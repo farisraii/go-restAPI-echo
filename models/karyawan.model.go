@@ -122,6 +122,20 @@ func UpdateKaryawan(id int, nama string, jeniskelamin string, usia int, telepon 
 		return res, err
 	}
 
+	existingData, err := fetchDataByID(id)
+	if err != nil {
+		return res, err
+	}
+
+	if isDataEqual(existingData, kar) {
+		res.Status = http.StatusOK
+		res.Message = "Data tidak berubah"
+		res.Data = map[string]int64{
+			"rows_affected": 0,
+		}
+		return res, nil
+	}
+
 	con := db.CreateCon()
 
 	sqlStatement := "UPDATE karyawans SET nama = ?, jenis_kelamin = ?, usia = ?, telepon = ?, alamat = ?  WHERE id = ?"
@@ -196,4 +210,30 @@ func DeleteKaryawan(id int) (Response, error) {
 
 	return res, nil
 
+}
+
+func isDataEqual(existingData Karyawan, newData Karyawan) bool {
+	return existingData.Nama == newData.Nama &&
+		existingData.Jenis_Kelamin == newData.Jenis_Kelamin &&
+		existingData.Usia == newData.Usia &&
+		existingData.Telepon == newData.Telepon &&
+		existingData.Alamat == newData.Alamat
+}
+
+func fetchDataByID(id int) (Karyawan, error) {
+	var kar Karyawan
+
+	con := db.CreateCon()
+
+	sqlStatement := "SELECT * FROM karyawans WHERE id = ?"
+
+	err := con.QueryRow(sqlStatement, id).Scan(
+		&kar.Id, &kar.Nama, &kar.Jenis_Kelamin, &kar.Usia, &kar.Telepon, &kar.Alamat,
+	)
+
+	if err != nil {
+		return kar, err
+	}
+
+	return kar, nil
 }
