@@ -1,7 +1,6 @@
 package models
 
 import (
-	"database/sql"
 	"net/http"
 
 	"github.com/farisraii/go-restAPI-echo/db"
@@ -123,15 +122,7 @@ func UpdateKaryawan(id int, nama string, jeniskelamin string, usia int, telepon 
 		return res, err
 	}
 
-	existingData, err := fetchDataByID(id)
-	if err != nil {
-		if err == sql.ErrNoRows {
-			res.Status = http.StatusNotFound
-			res.Message = "Id not found"
-			return res, nil
-		}
-		return res, err
-	}
+	existingData, _ := fetchDataByID(id)
 
 	if isDataEqual(existingData, kar) {
 		res.Status = http.StatusOK
