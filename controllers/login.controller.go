@@ -21,6 +21,16 @@ func CheckLogin(c echo.Context) error {
 	username := c.FormValue("username")
 	password := c.FormValue("password")
 
+	if username == "" {
+		return c.JSON(http.StatusBadRequest, map[string]string{"message": "Username is required"})
+
+	}
+
+	if password == "" {
+		return c.JSON(http.StatusBadRequest, map[string]string{"message": "Password is required"})
+
+	}
+
 	res, err := models.CheckLogin(username, password)
 	if err != nil {
 		return c.JSON(http.StatusInternalServerError, map[string]string{
