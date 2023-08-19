@@ -12,6 +12,11 @@ func StoreUser(c echo.Context) error {
 	username := c.FormValue("username")
 	pwd := c.FormValue("password")
 
+	if username == "" {
+		return c.JSON(http.StatusBadRequest, map[string]string{"message": "Username is required"})
+
+	}
+
 	if pwd == "" {
 		return c.JSON(http.StatusBadRequest, map[string]string{"message": "Password is required"})
 
