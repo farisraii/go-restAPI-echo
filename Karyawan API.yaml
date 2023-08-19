@@ -1,0 +1,130 @@
+openapi: 3.0.0
+info:
+  title: Karyawan API
+  description: API untuk mengelola data karyawan
+  version: 1.0.0
+servers:
+  - url: http://www.db4free.net:3306
+    description: phpMyAdmin
+
+paths:
+  /karyawan:
+    get:
+      summary: Mengambil semua data karyawan
+      tags:
+        - Karyawan
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              example:
+                - id: 1
+                  nama: John Doe
+                  jenis_kelamin: Laki-laki
+                  usia: 30
+                  telepon: 123456789
+                  alamat: Jalan Jendral Sudirman
+                - id: 2
+                  nama: Jane Smith
+                  jenis_kelamin: Perempuan
+                  usia: 28
+                  telepon: 987654321
+                  alamat: Jalan MH Thamrin
+
+    post:
+      summary: Menyimpan data karyawan baru
+      tags:
+        - Karyawan
+      requestBody:
+        required: true
+        content:
+          application/x-www-form-urlencoded:
+            schema:
+              type: object
+              properties:
+                nama:
+                  type: string
+                jenis_kelamin:
+                  type: string
+                usia:
+                  type: integer
+                telepon:
+                  type: string
+                alamat:
+                  type: string
+            example:
+              nama: John Doe
+              jenis_kelamin: Laki-laki
+              usia: 30
+              telepon: 123456789
+              alamat: Jalan Jendral Sudirman
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              example:
+                message: Data karyawan berhasil disimpan
+
+  /karyawan/{id}:
+    put:
+      summary: Mengupdate data karyawan berdasarkan ID
+      tags:
+        - Karyawan
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: integer
+          description: ID karyawan yang akan diupdate
+      requestBody:
+        required: true
+        content:
+          application/x-www-form-urlencoded:
+            schema:
+              type: object
+              properties:
+                nama:
+                  type: string
+                jenis_kelamin:
+                  type: string
+                usia:
+                  type: integer
+                telepon:
+                  type: string
+                alamat:
+                  type: string
+            example:
+              nama: John Doe
+              jenis_kelamin: Laki-laki
+              usia: 32
+              telepon: 123456789
+              alamat: Jalan Jendral Sudirman
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              example:
+                message: Data karyawan berhasil diupdate
+
+    delete:
+      summary: Menghapus data karyawan berdasarkan ID
+      tags:
+        - Karyawan
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: integer
+          description: ID karyawan yang akan dihapus
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              example:
+                message: Data karyawan berhasil dihapus
