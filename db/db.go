@@ -10,7 +10,7 @@ import (
 
 var db *sql.DB
 
-// var err error
+var err error
 
 func Init() {
 	// err := godotenv.Load()
